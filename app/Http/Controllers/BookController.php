@@ -26,7 +26,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required'
+            'title' => ['required']
         ]);
         $book = new Book;
         $book->title = $request->input('title');
@@ -55,7 +55,13 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        return 'patch';
+        $request->validate([
+            'title' => ['required']
+        ]);
+        $book->title = $request->input('title');
+        $book->save();
+
+        return $book;
     }
 
     /**
@@ -66,6 +72,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        return 'delete';
+        $book->delete();
+        return response()->noContent();
     }
 }
